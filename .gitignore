@@ -2,3 +2,5 @@
 .ipynb_checkpoints/
 data/
 normal/
+.vscode
+validate/tmp/
