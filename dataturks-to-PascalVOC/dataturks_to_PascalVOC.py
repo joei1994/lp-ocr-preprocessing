@@ -17,25 +17,24 @@ import re
 ###############################################################
 ###############################################################
 
-
 #enable info logging.
 logging.getLogger().setLevel(logging.INFO)
 
 def maybe_download(image_url, image_dir):
     """Download the image if not already exist, return the location path"""
-    fileName = image_url.split("/")[-1].split('___')[-1]
-    filePath = os.path.join(image_dir, fileName)
+    imageName = image_url.split("/")[-1].split('_')[-1]
+    imageFilePath = os.path.join(image_dir, imageName)
 
-    if (os.path.exists(filePath)):
-        return filePath
+    if (os.path.exists(imageFilePath)):
+        return imageFilePath
 
     #else download the image
     try:
         response = requests.get(image_url)
         if response.status_code == 200:
-            with open(filePath, 'wb') as f:
+            with open(imageFilePath, 'wb') as f:
                 f.write(response.content)
-                return filePath
+                return imageFilePath
         else:
             raise ValueError( "Not a 200 response")
     except Exception as e:
@@ -102,15 +101,15 @@ def convert_to_PascalVOC(dataturks_labeled_item, outputDir):
         #height = data['annotation'][0]['imageHeight']
         image_url = data['content']
 
-        imageFile = maybe_download(image_url, outputDir)
+        imageFilePath = maybe_download(image_url, outputDir)
 
-        with Image.open(imageFile) as img:
+        with Image.open(imageFilePath) as img:
             width, height = img.size
         
-        imageExtension = imageFile.split('.')[-1]
+        imageExtension = imageFilePath.split('.')[-1]
 
         if imageExtension in ['jpg', 'jpeg']:
-            imageName = re.findall(r'.+(?=\.j)', imageFile.split("\\")[-1])[0]
+            imageName = os.path.basename(imageFilePath).split('.')[0]
         else:
             raise("Image extension not found")
 
@@ -119,7 +118,7 @@ def convert_to_PascalVOC(dataturks_labeled_item, outputDir):
 
         xml = "<annotation>\n<folder>" + image_dir_folder_name + "." + imageExtension + "</folder>\n"
         xml = xml + "<filename>" + imageName +"</filename>\n"
-        xml = xml + "<path>" + imageFile +"</path>\n"
+        xml = xml + "<path>" + imageFilePath +"</path>\n"
         xml = xml + "<source>\n\t<database>Unknown</database>\n</source>\n"
         xml = xml + "<size>\n"
         xml = xml +     "\t<width>" + str(width) + "</width>\n"
@@ -148,6 +147,7 @@ def convert_to_PascalVOC(dataturks_labeled_item, outputDir):
         #output to a file.
         xmlFilePath = os.path.join(outputDir,  imageName + ".xml")
         
+        
         with open(xmlFilePath, 'w', encoding='utf-8') as f:
             f.write(xml)
         return True
@@ -175,7 +175,7 @@ def main():
 
     count = 0;
     success = 0
-    for line in lines[:10]:
+    for line in lines:
         status = convert_to_PascalVOC(line, outputDir)
         if (status):
             success = success + 1
@@ -188,16 +188,20 @@ def main():
 
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
-    ap.add_argument('-djf', '--dataturks_json_file', type=str, required=True, help='Path to the JSON file downloaded from Dataturks.')
-    ap.add_argument('-ord', '--output_root_dir', type=str, default='./data', help='Path to the directory where outputs is')
+    ap.add_argument('-dn', '--dataset_name', type=str, required=True, help='Dataset name')
+    ap.add_argument('-bnum', '--bucket_number', type=int, required=True, help='Number of bucket')
     args = vars(ap.parse_args())    
 
+    global datasetName
+    global bucketNumber    
     global dataturksJsonFile
     global outputDir
 
-    dataturksJsonFile = args['dataturks_json_file']
-    jsonFileName = re.findall(r'.+(?=\.(?=j))', dataturksJsonFile.split('/')[-1])[0]
-    outputDir = os.path.join(args['output_root_dir'], jsonFileName)
+    datasetName = args['dataset_name']
+    bucketNumber = args['bucket_number']
+    bucketName = f"{datasetName}-bucket_{bucketNumber}"
+    dataturksJsonFile = os.path.join(f'./json/{datasetName}/{bucketName}.json')
+    outputDir = os.path.join('./pascalVOC', f"{datasetName}/{bucketName}")
 
     if not os.path.exists(outputDir):
         os.makedirs(outputDir)

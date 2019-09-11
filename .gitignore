@@ -1,6 +1,10 @@
 .DS_Store
 .ipynb_checkpoints/
-data/
-normal/
 .vscode
+
 validate/tmp/
+bucketing/*-buckets/
+laking/*-sources/
+laking/*-lake/
+dataturks-to-pascalVOC/pascalVOC/
+dataturks-to-pascalVOC/json/
