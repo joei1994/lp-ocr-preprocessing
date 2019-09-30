@@ -15,10 +15,12 @@ import re
 ## pip install pillow
 
 ###############################################################
-###############################################################
+       ###############################################################
 
 #enable info logging.
 logging.getLogger().setLevel(logging.INFO)
+
+HOST = 'http://dataturks.iapp.co.th'
 
 def maybe_download(image_url, image_dir):
     """Download the image if not already exist, return the location path"""
@@ -99,8 +101,8 @@ def convert_to_PascalVOC(dataturks_labeled_item, outputDir):
 
         #width = data['annotation'][0]['imageWidth']
         #height = data['annotation'][0]['imageHeight']
-        image_url = data['content']
-
+        image_url = HOST + data['content']
+        
         imageFilePath = maybe_download(image_url, outputDir)
 
         with Image.open(imageFilePath) as img:

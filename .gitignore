@@ -2,9 +2,7 @@
 .ipynb_checkpoints/
 .vscode
 
-validate/tmp/
-bucketing/*-buckets/
-laking/*-sources/
-laking/*-lake/
+datasets/
+buckets/
 dataturks-to-pascalVOC/pascalVOC/
-dataturks-to-pascalVOC/json/
+validate/tmp/
