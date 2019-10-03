@@ -3,6 +3,10 @@ import os
 import utils
 import cv2
 import xml.etree.ElementTree as ET
+import imgaug as ia
+import imgaug.augmenters as iaa
+from imgaug.augmentables.bbs import BoundingBox, BoundingBoxesOnImage
+
 
 from pdb import set_trace
 
@@ -12,7 +16,7 @@ ap.add_argument("-bnum", "--bucket_number", type=int, required=True, help="Bucke
 args = vars(ap.parse_args())
 
 PLATE = 'plate'
-PLATE_PADDING = 8
+PLATE_PADDING = 4
 
 def saveImageAndXml(imageName, image, xml, outputDir):
     cv2.imwrite(os.path.join(outputDir, imageName + '.jpg'), image)
@@ -116,22 +120,46 @@ def createPlateXml(plateImage, newCharObjects, imageFilePath):
     xml = xml + "</annotation>"
     return xml
 
-def cropPlate(carImageFilePath, xmlFilePath):
+def resize(image, objects, width, heigth):
+    def updateObjectBbox(obj, resizedBbox):
+        obj['xmin'] = resizedBbox.x1
+        obj['ymin'] = resizedBbox.y1
+        obj['xmax'] = resizedBbox.x2
+        obj['ymax'] = resizedBbox.y2
+        return obj
+    
+    bbs = BoundingBoxesOnImage([BoundingBox(x1=obj['xmin'], y1=obj['ymin'], x2=obj['xmax'], y2=obj['ymax']) for obj in objects], shape=image.shape)
+
+    if width == None and heigth != None:
+        width = 'keep-aspect-ratio'
+    elif width != None and heigth == None:
+        heigth = 'keep-aspect-ratio'
+
+    seq = iaa.Sequential([iaa.Resize({"width": width, "height": heigth})])
+    resizedImage, resizedBboxes = seq(image=image, bounding_boxes=bbs)
+
+    updatedObjects = [updateObjectBbox(obj, resizedBboxes.bounding_boxes[i]) for i, obj in enumerate(objects)]
+    return resizedImage, updatedObjects
+
+def cropPlate(carImageFilePath, xmlFilePath, newWidth = None, newHeight = None):
     carImage = cv2.imread(carImageFilePath)
     cv2.cvtColor(carImage, cv2.COLOR_BGR2RGB)
     plateObject = getPlateObject(xmlFilePath)
-    # crop plate image
-    plateImage = carImage[plateObject['ymin'] - PLATE_PADDING : plateObject['ymax'] + PLATE_PADDING, plateObject['xmin'] - PLATE_PADDING : plateObject['xmax'] + PLATE_PADDING]
-    # calculate new chars object
-    newCharObjects = calculateNewCharObjects(getCharObjects(xmlFilePath), plateObject, PLATE_PADDING)
-
-    drawBbox(plateImage, newCharObjects)
-    xml = createPlateXml(plateImage, newCharObjects, carImageFilePath)
-
     if plateObject != None:
+        # crop plate image
+        plateImage = carImage[plateObject['ymin'] - PLATE_PADDING : plateObject['ymax'] + PLATE_PADDING, plateObject['xmin'] - PLATE_PADDING : plateObject['xmax'] + PLATE_PADDING]
+        # calculate new chars object
+        newCharObjects = calculateNewCharObjects(getCharObjects(xmlFilePath), plateObject, PLATE_PADDING)
+
+        if newWidth != None or newHeight != None:
+            plateImage, newCharObjects = resize(plateImage, newCharObjects, newWidth, newHeight)
+
+        #drawBbox(plateImage, newCharObjects)
+
+        xml = createPlateXml(plateImage, newCharObjects, carImageFilePath)
         return plateImage, xml
     else:
-        return None
+        raise Exception("Plate Object Not Found")
 
 def main():
     datasetName = args['dataset_name']
@@ -142,12 +170,15 @@ def main():
     if not os.path.exists(croppedLpDirPath):
         os.makedirs(croppedLpDirPath)
 
-    for carImageFilePath in utils.listImageFilePaths(pascalVOCDirPath)[:5]:
+    for carImageFilePath in utils.listImageFilePaths(pascalVOCDirPath):
         imageName = utils.getFileName(carImageFilePath)
         xmlFilePath = os.path.join(pascalVOCDirPath, imageName + '.xml')
 
-        plateImage, xml = cropPlate(carImageFilePath, xmlFilePath)
-        
+        try:
+            plateImage, xml = cropPlate(carImageFilePath, xmlFilePath, newHeight=250)
+        except:
+            continue
+
         saveImageAndXml(imageName, plateImage, xml, croppedLpDirPath)
 
 if __name__ == "__main__":
