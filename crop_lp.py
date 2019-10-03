@@ -164,7 +164,7 @@ def cropPlate(carImageFilePath, xmlFilePath, newWidth = None, newHeight = None):
 def main():
     datasetName = args['dataset_name']
     datasetNumber = args['bucket_number']
-    pascalVOCDirPath = os.path.join('./dataturks-to-pascalVOC/pascalVOC/', datasetName, f'{datasetName}-bucket_{datasetNumber}')
+    pascalVOCDirPath = os.path.join('./dataturks/pascalVOC/', datasetName, f'{datasetName}-bucket_{datasetNumber}')
     croppedLpDirPath = os.path.join('./cropped_lps/', datasetName, f"{datasetName}-bucket_{datasetNumber}")
 
     if not os.path.exists(croppedLpDirPath):
@@ -176,7 +176,8 @@ def main():
 
         try:
             plateImage, xml = cropPlate(carImageFilePath, xmlFilePath, newHeight=250)
-        except:
+        except Exception:
+            print("Plate Object Not Found")
             continue
 
         saveImageAndXml(imageName, plateImage, xml, croppedLpDirPath)

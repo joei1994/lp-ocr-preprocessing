@@ -203,8 +203,8 @@ if __name__ == '__main__':
     datasetName = args['dataset_name']
     bucketNumber = args['bucket_number']
     bucketName = f"{datasetName}-bucket_{bucketNumber}"
-    dataturksJsonFile = os.path.join(f'./json/{datasetName}/{bucketName}.json')
-    outputDir = os.path.join('./pascalVOC', f"{datasetName}/{bucketName}")
+    dataturksJsonFile = os.path.join(f'./dataturks/json/{datasetName}/{bucketName}.json')
+    outputDir = os.path.join('./dataturks/pascalVOC', f"{datasetName}/{bucketName}")
 
     if not os.path.exists(outputDir):
         os.makedirs(outputDir)
