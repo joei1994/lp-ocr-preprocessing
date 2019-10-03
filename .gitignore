@@ -6,3 +6,5 @@ datasets/
 buckets/
 dataturks-to-pascalVOC/pascalVOC/
 validate/tmp/
+cropped_lps/
+__pycache__/

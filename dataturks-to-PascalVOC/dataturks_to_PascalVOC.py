@@ -183,6 +183,7 @@ def main():
             success = success + 1
 
         count+=1;
+        print(count)
         if (count % 10 == 0):
             logging.info(str(count) + " items done ...")
 
