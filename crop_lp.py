@@ -13,6 +13,8 @@ from pdb import set_trace
 ap = argparse.ArgumentParser()
 ap.add_argument("-dn", "--dataset_name", type=str, required=True, help='Dataset\'s name')
 ap.add_argument("-bnum", "--bucket_number", type=int, required=True, help="Bucket Number")
+ap.add_argument("--width", type=int, help="Width of cropped plate")
+ap.add_argument("--height", type=int, help="Height of cropped plate")
 args = vars(ap.parse_args())
 
 PLATE = 'plate'
@@ -94,7 +96,7 @@ def createPlateXml(plateImage, newCharObjects, imageFilePath):
 
     xml = "<annotation>\n"
     #xml = xml + "<folder>" + folder + "</folder>\n"
-    #xml = xml + "<filename>" + fileName + "</filename>\n"
+    xml = xml + "<filename>" + fileName + "</filename>\n"
     #xml = xml + "<path>" + imageFilePath + "</path>\n"
     xml = xml + "<size>\n" 
     xml = xml + "\t<width>" + str(plateImage.shape[1]) + "</width>\n"
@@ -162,6 +164,9 @@ def cropPlate(carImageFilePath, xmlFilePath, newWidth = None, newHeight = None):
         raise Exception("Plate Object Not Found")
 
 def main():
+    width = args['width']
+    height = args['height']
+
     datasetName = args['dataset_name']
     datasetNumber = args['bucket_number']
     pascalVOCDirPath = os.path.join('./dataturks/pascalVOC/', datasetName, f'{datasetName}-bucket_{datasetNumber}')
@@ -175,7 +180,7 @@ def main():
         xmlFilePath = os.path.join(pascalVOCDirPath, imageName + '.xml')
 
         try:
-            plateImage, xml = cropPlate(carImageFilePath, xmlFilePath, newHeight=250)
+            plateImage, xml = cropPlate(carImageFilePath, xmlFilePath, newWidth=width, newHeight=height)
         except Exception:
             print("Plate Object Not Found")
             continue
