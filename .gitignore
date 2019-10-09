@@ -1,10 +1,22 @@
 .DS_Store
 .ipynb_checkpoints/
 .vscode
-
-datasets/
-buckets/
-dataturks/pascalVOC/
-validate/tmp/
-cropped_lps/
 __pycache__/
+
+# ignore everything inside datasets but not in datasets/example
+datasets/*
+!/datasets/example/
+
+# ignore everything inside buckets but not in buckets/example
+buckets/*
+!/buckets/example/
+
+dataturks/pascalVOC/*
+!dataturks/pascalVOC/example/
+dataturks/json/*
+!dataturks/json/example/
+
+validate/tmp/
+
+cropped_lps/*
+!cropped_lps/example
