@@ -1,0 +1,87 @@
+<annotation>
+<filename>1565867308561</filename>
+<size>
+	<width>50</width>
+	<height>28</height>
+	<depth>Unspecified</depth>
+</size>
+<segmented>Unspecified</segmented>
+<object>
+	<name>ฆ</name>
+	<pose>Unspecified</pose>
+	<truncated>Unspecified</truncated>
+	<difficult>Unspecified</difficult>
+	<occluded>Unspecified</occluded>
+	<bndbox>
+		<xmin>10.36036</xmin>
+		<xmax>15.765765</xmax>
+		<ymin>9.032258</ymin>
+		<ymax>17.161291</ymax>
+	</bndbox>
+</object>
+<object>
+	<name>ท</name>
+	<pose>Unspecified</pose>
+	<truncated>Unspecified</truncated>
+	<difficult>Unspecified</difficult>
+	<occluded>Unspecified</occluded>
+	<bndbox>
+		<xmin>16.216215</xmin>
+		<xmax>22.072073</xmax>
+		<ymin>8.129032</ymin>
+		<ymax>16.709679</ymax>
+	</bndbox>
+</object>
+<object>
+	<name>1</name>
+	<pose>Unspecified</pose>
+	<truncated>Unspecified</truncated>
+	<difficult>Unspecified</difficult>
+	<occluded>Unspecified</occluded>
+	<bndbox>
+		<xmin>25.225225</xmin>
+		<xmax>29.27928</xmax>
+		<ymin>6.7741933</ymin>
+		<ymax>15.354839</ymax>
+	</bndbox>
+</object>
+<object>
+	<name>4</name>
+	<pose>Unspecified</pose>
+	<truncated>Unspecified</truncated>
+	<difficult>Unspecified</difficult>
+	<occluded>Unspecified</occluded>
+	<bndbox>
+		<xmin>30.18018</xmin>
+		<xmax>34.234234</xmax>
+		<ymin>7.225806</ymin>
+		<ymax>14.451612</ymax>
+	</bndbox>
+</object>
+<object>
+	<name>1</name>
+	<pose>Unspecified</pose>
+	<truncated>Unspecified</truncated>
+	<difficult>Unspecified</difficult>
+	<occluded>Unspecified</occluded>
+	<bndbox>
+		<xmin>35.135136</xmin>
+		<xmax>37.837837</xmax>
+		<ymin>6.7741933</ymin>
+		<ymax>14.451612</ymax>
+	</bndbox>
+</object>
+<object>
+	<name>7</name>
+	<pose>Unspecified</pose>
+	<truncated>Unspecified</truncated>
+	<difficult>Unspecified</difficult>
+	<occluded>Unspecified</occluded>
+	<bndbox>
+		<xmin>37.837837</xmin>
+		<xmax>42.342342</xmax>
+		<ymin>5.8709674</ymin>
+		<ymax>14.451612</ymax>
+	</bndbox>
+</object>
+</annotation>

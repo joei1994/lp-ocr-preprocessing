@@ -1,0 +1,118 @@
+<annotation>
+<folder>example-bucket_1.jpg</folder>
+<filename>1565867308561</filename>
+<path>./dataturks/pascalVOC\example/example-bucket_1\1565867308561.jpg</path>
+<source>
+	<database>Unknown</database>
+</source>
+<size>
+	<width>608</width>
+	<height>460</height>
+	<depth>Unspecified</depth>
+</size>
+<segmented>Unspecified</segmented>
+<object>
+	<name>plate</name>
+	<pose>Unspecified</pose>
+	<truncated>Unspecified</truncated>
+	<difficult>Unspecified</difficult>
+	<occluded>Unspecified</occluded>
+	<bndbox>
+		<xmin>344.4422773810002</xmin>
+		<xmax>447.06232140071893</xmax>
+		<ymin>252.74936767819597</ymin>
+		<ymax>306.9099464663808</ymax>
+	</bndbox>
+</object>
+<object>
+	<name>misubishi</name>
+	<pose>Unspecified</pose>
+	<truncated>Unspecified</truncated>
+	<difficult>Unspecified</difficult>
+	<occluded>Unspecified</occluded>
+	<bndbox>
+		<xmin>369.6221955895423</xmin>
+		<xmax>412.3805472644251</xmax>
+		<ymin>197.63860329723596</ymin>
+		<ymax>237.54639819379318</ymax>
+	</bndbox>
+</object>
+<object>
+	<name>ฆ</name>
+	<pose>Unspecified</pose>
+	<truncated>Unspecified</truncated>
+	<difficult>Unspecified</difficult>
+	<occluded>Unspecified</occluded>
+	<bndbox>
+		<xmin>363.33711795629915</xmin>
+		<xmax>375.9996490941787</xmax>
+		<ymin>268.23892492079545</ymin>
+		<ymax>286.3282551177663</ymax>
+	</bndbox>
+</object>
+<object>
+	<name>ท</name>
+	<pose>Unspecified</pose>
+	<truncated>Unspecified</truncated>
+	<difficult>Unspecified</difficult>
+	<occluded>Unspecified</occluded>
+	<bndbox>
+		<xmin>376.77490610262026</xmin>
+		<xmax>389.69585624331376</xmax>
+		<ymin>266.9468299067261</ymin>
+		<ymax>285.8114171121385</ymax>
+	</bndbox>
+</object>
+<object>
+	<name>1</name>
+	<pose>Unspecified</pose>
+	<truncated>Unspecified</truncated>
+	<difficult>Unspecified</difficult>
+	<occluded>Unspecified</occluded>
+	<bndbox>
+		<xmin>396.9114386035345</xmin>
+		<xmax>405.3339624996308</xmax>
+		<ymin>263.5046761778675</ymin>
+		<ymax>282.15455051922345</ymax>
+	</bndbox>
+</object>
+<object>
+	<name>4</name>
+	<pose>Unspecified</pose>
+	<truncated>Unspecified</truncated>
+	<difficult>Unspecified</difficult>
+	<occluded>Unspecified</occluded>
+	<bndbox>
+		<xmin>407.7403978985154</xmin>
+		<xmax>416.16292179461163</xmax>
+		<ymin>264.1062850275887</ymin>
+		<ymax>280.8009306073509</ymax>
+	</bndbox>
+</object>
+<object>
+	<name>1</name>
+	<pose>Unspecified</pose>
+	<truncated>Unspecified</truncated>
+	<difficult>Unspecified</difficult>
+	<occluded>Unspecified</occluded>
+	<bndbox>
+		<xmin>418.11815055620536</xmin>
+		<xmax>424.2846412658473</xmax>
+		<ymin>263.203871753007</ymin>
+		<ymax>280.50012618249025</ymax>
+	</bndbox>
+</object>
+<object>
+	<name>7</name>
+	<pose>Unspecified</pose>
+	<truncated>Unspecified</truncated>
+	<difficult>Unspecified</difficult>
+	<occluded>Unspecified</occluded>
+	<bndbox>
+		<xmin>424.88625011556843</xmin>
+		<xmax>434.6623939235373</xmax>
+		<ymin>261.69984962870404</ymin>
+		<ymax>280.9513328197811</ymax>
+	</bndbox>
+</object>
+</annotation>
