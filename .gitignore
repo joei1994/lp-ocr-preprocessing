@@ -1,4 +1,10 @@
 .DS_Store
 .ipynb_checkpoints/
-data/
-normal/
+.vscode
+
+datasets/
+buckets/
+dataturks/pascalVOC/
+validate/tmp/
+cropped_lps/
+__pycache__/
