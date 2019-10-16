@@ -12,7 +12,6 @@ from pdb import set_trace
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-dn", "--dataset_name", type=str, required=True, help='Dataset\'s name')
-ap.add_argument("-bnum", "--bucket_number", type=int, required=True, help="Bucket Number")
 ap.add_argument("--width", type=int, help="Width of cropped plate")
 ap.add_argument("--height", type=int, help="Height of cropped plate")
 args = vars(ap.parse_args())
@@ -168,9 +167,8 @@ def main():
     height = args['height']
 
     datasetName = args['dataset_name']
-    datasetNumber = args['bucket_number']
-    pascalVOCDirPath = os.path.join('./dataturks/pascalVOC/', datasetName, f'{datasetName}-bucket_{datasetNumber}')
-    croppedLpDirPath = os.path.join('./cropped_lps/', datasetName, f"{datasetName}-bucket_{datasetNumber}")
+    pascalVOCDirPath = os.path.join('./dataturks/pascalVOC/', datasetName)
+    croppedLpDirPath = os.path.join('./cropped_lps/', datasetName)
 
     if not os.path.exists(croppedLpDirPath):
         os.makedirs(croppedLpDirPath)
