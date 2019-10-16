@@ -175,7 +175,7 @@ def main():
     if not os.path.exists(croppedLpDirPath):
         os.makedirs(croppedLpDirPath)
 
-    for carImageFilePath in utils.listImageFilePaths(pascalVOCDirPath):
+    for carImageFilePath in utils.listFilePaths(pascalVOCDirPath, 'jpg'):
         imageName = utils.getFileName(carImageFilePath)
         xmlFilePath = os.path.join(pascalVOCDirPath, imageName + '.xml')
 

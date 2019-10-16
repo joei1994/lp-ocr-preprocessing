@@ -7,7 +7,7 @@ import requests
 from PIL import Image
 from pdb import set_trace
 import re
-
+import utils
 ###################  INSTALLATION NOTE #######################
 ##############################################################
 
@@ -22,9 +22,12 @@ logging.getLogger().setLevel(logging.INFO)
 
 HOST = 'http://dataturks.iapp.co.th'
 
+def getImageNameFromUrl(image_url):
+    return image_url.split("/")[-1].split('_')[-1]
+
 def maybe_download(image_url, image_dir):
     """Download the image if not already exist, return the location path"""
-    imageName = image_url.split("/")[-1].split('_')[-1]
+    imageName = getImageNameFromUrl(image_url)
     imageFilePath = os.path.join(image_dir, imageName)
 
     if (os.path.exists(imageFilePath)):
@@ -82,7 +85,11 @@ def get_xml_for_bbx(bbx_label, bbx_data, width, height):
 
 
 def convert_to_PascalVOC(dataturks_labeled_item, outputDir):
-
+    def isStartWithHttp(url):
+        if re.match(r'http', url):
+            return True
+        else:
+            return False
     """Convert a dataturks labeled item to pascalVOCXML string.
       Args:
         dataturks_labeled_item: JSON of one labeled image from dataturks.
@@ -101,7 +108,9 @@ def convert_to_PascalVOC(dataturks_labeled_item, outputDir):
 
         #width = data['annotation'][0]['imageWidth']
         #height = data['annotation'][0]['imageHeight']
-        image_url = HOST + data['content']
+        image_url = data['content']
+        if not isStartWithHttp(image_url):
+            image_url = HOST + image_url
         
         imageFilePath = maybe_download(image_url, outputDir)
 
@@ -155,24 +164,28 @@ def convert_to_PascalVOC(dataturks_labeled_item, outputDir):
         return True
     except Exception as e:
         logging.exception("Unable to process item " + dataturks_labeled_item + "\n" + "error = "  + str(e))
-        return False
+        return False    
+
+
 
 def main():
-    if (not os.path.exists(dataturksJsonFile)):
+    if (not os.path.exists(jsonDir)):
         logging.exception(
-            "Please specify a valid path to dataturks JSON output file, " + dataturksJsonFile + " doesn't exist")
+            "Please specify a valid path to dataturks JSON directory, " + jsonDir + " doesn't exist")
         return
     if (not os.path.isdir(outputDir)):
         logging.exception("Please specify a valid directory path to download images, " + outputDir + " doesn't exist")
         return
 
+    allJsonFilePath = utils.listFilePaths(jsonDir, 'json')
     lines = []
-    with open(dataturksJsonFile, 'r', encoding='utf-8') as f:
-        lines = f.readlines()
-
+    for jsonFile in allJsonFilePath:
+        with open(jsonFile, 'r', encoding='utf-8') as f:
+            lines += f.readlines()
+    
     if (not lines or len(lines) == 0):
         logging.exception(
-            "Please specify a valid path to dataturks JSON output file, " + dataturksJsonFile + " is empty")
+            "Please specify a valid path to dataturks JSON output file, " + jsonFile + " is empty")
         return
 
     count = 0;
@@ -192,19 +205,14 @@ def main():
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('-dn', '--dataset_name', type=str, required=True, help='Dataset name')
-    ap.add_argument('-bnum', '--bucket_number', type=int, required=True, help='Number of bucket')
     args = vars(ap.parse_args())    
 
-    global datasetName
-    global bucketNumber    
-    global dataturksJsonFile
+    global datasetName    
     global outputDir
 
     datasetName = args['dataset_name']
-    bucketNumber = args['bucket_number']
-    bucketName = f"{datasetName}-bucket_{bucketNumber}"
-    dataturksJsonFile = os.path.join(f'./dataturks/json/{datasetName}/{bucketName}.json')
-    outputDir = os.path.join('./dataturks/pascalVOC', f"{datasetName}/{bucketName}")
+    jsonDir = os.path.join('./dataturks/json', datasetName)
+    outputDir = os.path.join('./dataturks/pascalVOC', datasetName)
 
     if not os.path.exists(outputDir):
         os.makedirs(outputDir)

@@ -9,5 +9,5 @@ def getFileName(filePath):
 def listSubDirPaths(parentDirPath):
     return [subDirPath.replace('\\', '/') for subDirPath in glob.glob(parentDirPath + '/*/')]
 
-def listImageFilePaths(dirPath):
-    return [f.replace('\\', '/') for f in glob.glob(dirPath + '/*.jpg')]    
+def listFilePaths(dirPath, extension):
+    return [f.replace('\\', '/') for f in glob.glob(dirPath + f'/*.{extension}')]    
