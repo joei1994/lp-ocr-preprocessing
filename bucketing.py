@@ -1,12 +1,14 @@
 import os
 import glob
-import time
+import datetime
 import argparse
 
 from pdb import set_trace
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-dn", "--dataset_name", required=True, help="Name of dataset")
+ap.add_argument("-ds", "--day_start", required=False, default=6, type=int, help="Day start hour (default: 6:00)")
+ap.add_argument("-de", "--day_end", required=False, default=18, type=int, help="Day end hour (default: 18:00)")
 args = vars(ap.parse_args())
 
 LIMIT = 1000
@@ -50,8 +52,20 @@ def copyImagesToBucket(datasetName, imageName, datasetsDirPath, bucketsDirPath):
     shutil.copyfile(os.path.join(getSubDatasetDirPath(imageName), f"{imageName}.jpg"),
                 os.path.join(destinationBucketDirPath, f'{imageName}.jpg'))
 
+def isDayTime(imageName, dayStart, dayEnd):
+
+    ts = int(imageName.split(".")[0])/1000
+    date_time = datetime.datetime.fromtimestamp(ts)
+    hour = int(date_time.strftime("%H"))
+
+    return hour >= dayStart and hour < dayEnd
+
 def main():
     datasetName = args['dataset_name']
+
+    dayStart = args['day_start']
+    dayEnd = args['day_end']
+
     datasetsDirPath = os.path.join(f'./datasets/{datasetName}')
     bucketsDirPath = os.path.join(f'./buckets/{datasetName}')
 
@@ -67,9 +81,13 @@ def main():
     # list all images not bucketed
     imagesInBucket = [getFileName(imageFilePath) for bucketDirPath in listSubDirs(bucketsDirPath) for imageFilePath in listImageFiles(bucketDirPath)]
     imagesNotInBucket = set(imagesInDataset) - set(imagesInBucket)
-    
+
+    imagesNotInBucket = list(imagesNotInBucket)
+    imagesNotInBucket.sort()
+
     for imageName in imagesNotInBucket:
-        copyImagesToBucket(datasetName, imageName, datasetsDirPath, bucketsDirPath)
+        if isDayTime(imageName, dayStart, dayEnd):
+            copyImagesToBucket(datasetName, imageName, datasetsDirPath, bucketsDirPath)
 
 if __name__ == "__main__":
     main()
