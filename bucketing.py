@@ -7,8 +7,8 @@ from pdb import set_trace
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-dn", "--dataset_name", required=True, help="Name of dataset")
-ap.add_argument("-ds", "--day_start", required=True, default=6, type=int, help="Day start hour (default: 6:00)")
-ap.add_argument("-de", "--day_end", required=True, default=18, type=int, help="Day end hour (default: 18:00)")
+ap.add_argument("-ds", "--day_start", required=False, default=6, type=int, help="Day start hour (default: 6:00)")
+ap.add_argument("-de", "--day_end", required=False, default=18, type=int, help="Day end hour (default: 18:00)")
 args = vars(ap.parse_args())
 
 LIMIT = 1000
