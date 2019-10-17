@@ -78,9 +78,6 @@ def main():
     imagesInBucket = [getFileName(imageFilePath) for bucketDirPath in listSubDirs(bucketsDirPath) for imageFilePath in listImageFiles(bucketDirPath)]
     imagesNotInBucket = set(imagesInDataset) - set(imagesInBucket)
 
-    imagesNotInBucket = list(imagesNotInBucket)
-    imagesNotInBucket.sort()
-
     for imageName in imagesNotInBucket:
         if isDayTime(imageName, args['day_start'], args['day_end']):
             copyImagesToBucket(datasetName, imageName, datasetsDirPath, bucketsDirPath)
