@@ -7,12 +7,11 @@ from pdb import set_trace
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-dn", "--dataset_name", required=True, help="Name of dataset")
-ap.add_argument("-ds", "--day_start", required=False, help="Day start hour (default: 6:00)")
-ap.add_argument("-de", "--day_end", required=False, help="Day end hour (default: 18:00)")
+ap.add_argument("-ds", "--day_start", required=True, default=6, type=int, help="Day start hour (default: 6:00)")
+ap.add_argument("-de", "--day_end", required=True, default=18, type=int, help="Day end hour (default: 18:00)")
 args = vars(ap.parse_args())
 
 LIMIT = 1000
-
 
 def getFileName(filePath):
     return os.path.basename(filePath).split('.')[0]
@@ -66,12 +65,6 @@ def main():
 
     dayStart = args['day_start']
     dayEnd = args['day_end']
-
-    if dayStart == None:
-        dayStart = 6
-
-    if dayEnd == None:
-        dayEnd = 18
 
     datasetsDirPath = os.path.join(f'./datasets/{datasetName}')
     bucketsDirPath = os.path.join(f'./buckets/{datasetName}')
