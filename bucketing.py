@@ -53,7 +53,6 @@ def copyImagesToBucket(datasetName, imageName, datasetsDirPath, bucketsDirPath):
                 os.path.join(destinationBucketDirPath, f'{imageName}.jpg'))
 
 def isDayTime(imageName, dayStart, dayEnd):
-
     ts = int(imageName.split(".")[0])/1000
     date_time = datetime.datetime.fromtimestamp(ts)
     hour = int(date_time.strftime("%H"))
@@ -62,9 +61,6 @@ def isDayTime(imageName, dayStart, dayEnd):
 
 def main():
     datasetName = args['dataset_name']
-
-    dayStart = args['day_start']
-    dayEnd = args['day_end']
 
     datasetsDirPath = os.path.join(f'./datasets/{datasetName}')
     bucketsDirPath = os.path.join(f'./buckets/{datasetName}')
@@ -86,7 +82,7 @@ def main():
     imagesNotInBucket.sort()
 
     for imageName in imagesNotInBucket:
-        if isDayTime(imageName, dayStart, dayEnd):
+        if isDayTime(imageName, args['day_start'], args['day_end']):
             copyImagesToBucket(datasetName, imageName, datasetsDirPath, bucketsDirPath)
 
 if __name__ == "__main__":
