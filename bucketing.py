@@ -29,8 +29,8 @@ def copyImagesToBucket(datasetName, imageName, datasetsDirPath, bucketsDirPath):
     bucketDirPaths = listSubDirs(bucketsDirPath)
     if len(bucketDirPaths) == 0:
         os.makedirs(os.path.join(bucketsDirPath, f'{datasetName}-bucket_1'))
-    lastestBucketDirPath = sorted([bucketDirPath for bucketDirPath in listSubDirs(bucketsDirPath)])[-1]
-
+    lastestBucketNumber = sorted([int(bucketDirPath.split('/')[-2].split('_')[-1]) for bucketDirPath in listSubDirs(bucketsDirPath)])[-1]
+    lastestBucketDirPath = os.path.join(bucketsDirPath, f'{datasetName}-bucket_{lastestBucketNumber}').replace('\\', '/')
     # check if lastest bucket is available
     numFile = len(listImageFiles(lastestBucketDirPath))
     if numFile < LIMIT:
