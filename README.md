@@ -4,7 +4,7 @@
 2. Create virtual environment and active it
 ```
   conda create -n <venv-name> python=3.6
-  conda activate <nenv-name>
+  conda activate <venv-name>
 ```
 3. Install dependencies, by run the followings commands
 ```
