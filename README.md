@@ -19,7 +19,7 @@
 ```
 2. Place dataset into that directory
 ## Bucketing Dataset
-1. Change directory to <project-root-dir>
+1. Change directory to `<project-root-dir>`
 2. Run the following command
 ```
   python bucketing -dn <dataset-name>
