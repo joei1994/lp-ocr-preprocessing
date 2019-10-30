@@ -30,7 +30,6 @@
 2. Log in with
 >
 	  Email : iwachirawit@iapp.co.th
-	  Password : iapp2019
 3. Create new dataset
 4. Upload compressed bucket e.g. upload `<project-root-dir>/buckets/<dataset-name>/<datasetname-bucket_X>.zip`
 ## Download Tagged Data
@@ -38,7 +37,6 @@
 2. Log in with
 >
 	  Email : iwachirawit@iapp.co.th
-	  Password : iapp2019
 3. Select desired dataset
 4. Click on `options` button at upper right corner, then click download you
 
